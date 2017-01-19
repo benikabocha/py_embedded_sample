@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 			local
 			);
 		auto func_01 = local["func_01"];
-		func_01.call();
+		func_01();
 
 		// ŠÖ”‚Öˆø”‚ğ“n‚·
 		py::eval<py::eval_statements>(
@@ -52,8 +52,8 @@ int main(int argc, char** argv)
 			local
 			);
 		auto func_02 = local["func_02"];
-		func_02.call(123, 456);
-		func_02.call("abc", "efg");
+		func_02(123, 456);
+		func_02("abc", "efg");
 
 		// ŠÖ”‚Ì–ß‚è’l‚ğæ“¾‚·‚é
 		py::eval<py::eval_statements>(
@@ -64,11 +64,11 @@ int main(int argc, char** argv)
 			);
 		auto func_03 = local["func_03"];
 		{
-			auto result = func_03.call(123, 456);
+			auto result = func_03(123, 456);
 			std::cout << "cpp: func_03 result " << py::str(result).cast<std::string>() << "\n";
 		}
 		{
-			auto result = func_03.call("abc", "def");
+			auto result = func_03("abc", "def");
 			std::cout << "cpp: func_03 result " << py::str(result).cast<std::string>() << "\n";
 		}
 
