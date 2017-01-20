@@ -1,4 +1,4 @@
-#include <pybind11/pybind11.h>
+ï»¿#include <pybind11/pybind11.h>
 #include <pybind11/eval.h>
 
 #include <iostream>
@@ -20,21 +20,21 @@ int main(int argc, char** argv)
 		auto global = py::dict(py::module::import("__main__").attr("__dict__"));
 		auto local = py::dict();
 
-		// http://docs.python.jp/3.5/extending/embedding.html ‚ÌƒTƒ“ƒvƒ‹‚ğ pybind11 ‚Å‹Lq
+		// http://docs.python.jp/3.5/extending/embedding.html ã®ã‚µãƒ³ãƒ—ãƒ«ã‚’ pybind11 ã§è¨˜è¿°
 		py::eval<py::eval_single_statement>("from time import time,ctime", global, local);
 		py::eval("print('Today is', ctime(time()))", global, local);
 
-		// •Ï”‚Ì’è‹`
+		// å¤‰æ•°ã®å®šç¾©
 		local["x"] = 100;
 		py::eval<py::eval_single_statement>("y = 200", global, local);
 		py::eval("print('x + y =', x + y)", global, local);
 
-		// ’l‚Ìæ“¾
+		// å€¤ã®å–å¾—
 		py::eval<py::eval_single_statement>("z = x + y", global, local);
 		auto z = local["z"].cast<int>();
 		std::cout << "cpp: z = " << z << "\n";
 
-		// ŠÖ”’è‹`‚ÆŒÄ‚Ño‚µ
+		// é–¢æ•°å®šç¾©ã¨å‘¼ã³å‡ºã—
 		py::eval<py::eval_statements>(
 			"def func_01():\n"
 			"	print('func_01: call')\n",
@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 		auto func_01 = local["func_01"];
 		func_01();
 
-		// ŠÖ”‚Öˆø”‚ğ“n‚·
+		// é–¢æ•°ã¸å¼•æ•°ã‚’æ¸¡ã™
 		py::eval<py::eval_statements>(
 			"def func_02(a, b):\n"
 			"	print('func_02: {} + {} = {}'.format(a, b, a + b))\n",
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 		func_02(123, 456);
 		func_02("abc", "efg");
 
-		// ŠÖ”‚Ì–ß‚è’l‚ğæ“¾‚·‚é
+		// é–¢æ•°ã®æˆ»ã‚Šå€¤ã‚’å–å¾—ã™ã‚‹
 		py::eval<py::eval_statements>(
 			"def func_03(a, b):\n"
 			"	return a + b\n",

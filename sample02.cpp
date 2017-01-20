@@ -1,4 +1,4 @@
-#include <pybind11/pybind11.h>
+ï»¿#include <pybind11/pybind11.h>
 
 int add(int a, int b)
 {
@@ -19,7 +19,7 @@ class Dog : public Animal
 		std::string result;
 		for (int i = 0; i < n_times; i++)
 		{
-			result += u8"ƒƒ“! ";
+			result += u8"ãƒ¯ãƒ³! ";
 		}
 		return result;
 	}
@@ -52,7 +52,7 @@ PYBIND11_PLUGIN(sample02)
 {
 	py::module m("sample02", "pybind11 module sample.");
 
-	m.def("add", &add, u8"2‚Â‚Ì”’l‚ð‘«‚µ‡‚í‚¹‚Ü‚·");
+	m.def("add", &add, u8"2ã¤ã®æ•°å€¤ã‚’è¶³ã—åˆã‚ã›ã¾ã™");
 
 	py::class_<Animal, PyAnimal> animal(m, "Animal");
 	animal
