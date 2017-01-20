@@ -79,6 +79,8 @@ int main(int argc, char** argv)
 			std::cout << py::str((*it).second).cast<std::string>() << " : ";
 			std::cout << py::str((*it).second.get_type()).cast<std::string>() << "\n";
 		}
+
+		py::eval_file("sample01.py", global, local);
 	}
 	catch (std::runtime_error e)
 	{
