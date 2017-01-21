@@ -34,3 +34,7 @@ add_custom_command(TARGET sample02 POST_BUILD
     ${CMAKE_CURRENT_SOURCE_DIR}/sample02.py
     ${CMAKE_CURRENT_BINARY_DIR}/sample02.py
 )
+
+# sample03
+add_executable(sample03 sample03.cpp)
+target_link_libraries(sample03 ${PYTHON_LIBRARIES})
