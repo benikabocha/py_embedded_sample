@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
 		}
 
 		py::eval_file("sample01.py", global, local);
-	} catch (std::runtime_error e) {
+	} catch (py::error_already_set& e) {
 		std::cout << "Python error.\n" << e.what() << "\n";
 	}
 
