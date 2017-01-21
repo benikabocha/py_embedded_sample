@@ -1,21 +1,19 @@
-﻿#include <pybind11/pybind11.h>
-#include <pybind11/eval.h>
+﻿#include <pybind11/eval.h>
+#include <pybind11/pybind11.h>
 
 #include <iostream>
 #include <memory>
 
-class Job
-{
+class Job {
 public:
 	std::string GetName() const { return m_name; }
 	void SetName(const std::string& name) { m_name = name; }
 
 private:
-	std::string	m_name;
+	std::string m_name;
 };
 
-class Person
-{
+class Person {
 public:
 	std::string GetName() const { return m_name; }
 	void SetName(const std::string& name) { m_name = name; }
@@ -24,35 +22,29 @@ public:
 	void SetJob(const std::shared_ptr<Job>& job) { m_job = job; }
 
 private:
-	std::string				m_name;
-	std::shared_ptr<Job>	m_job;
+	std::string m_name;
+	std::shared_ptr<Job> m_job;
 };
 
 namespace py = pybind11;
 
-PyMODINIT_FUNC PyInit_sample03()
-{
+PyMODINIT_FUNC PyInit_sample03() {
 	py::module m("sample03", "pybind11 module sample.");
 
 	py::class_<Job, std::shared_ptr<Job>> job(m, "Job");
-	job
-		.def(py::init<>())
-		.def_property("name", &Job::GetName, &Job::SetName);
+	job.def(py::init<>()).def_property("name", &Job::GetName, &Job::SetName);
 
 	py::class_<Person, std::shared_ptr<Person>> person(m, "Person");
-	person
-		.def(py::init<>())
+	person.def(py::init<>())
 		.def_property("name", &Person::GetName, &Person::SetName)
 		.def_property("job", &Person::GetJob, &Person::SetJob);
 
 	return m.ptr();
 }
 
-int main(int argc, char** argv)
-{
-	wchar_t *program = Py_DecodeLocale(argv[0], NULL);
-	if (program == NULL)
-	{
+int main(int argc, char** argv) {
+	wchar_t* program = Py_DecodeLocale(argv[0], NULL);
+	if (program == NULL) {
 		fprintf(stderr, "Fatal error: cannot decode argv[0]\n");
 		exit(1);
 	}
@@ -64,8 +56,7 @@ int main(int argc, char** argv)
 
 	py::module::import("sample03");
 
-	try
-	{
+	try {
 		auto global = py::dict(py::module::import("__main__").attr("__dict__"));
 
 		// Python で関数を作成 (Name=Hoge, Job=Teacher)
@@ -76,9 +67,7 @@ int main(int argc, char** argv)
 			"	job.name = 'Teacher'\n"
 			"	p.name = 'Hoge'\n"
 			"	p.job = job\n",
-			global
-			);
-
+			global);
 		{
 			auto person = std::make_shared<Person>();
 			global["initialize_person"](person);
@@ -94,17 +83,14 @@ int main(int argc, char** argv)
 			"	job.name = 'Programmer'\n"
 			"	p.name = 'Foo'\n"
 			"	p.job = job\n",
-			global
-			);
+			global);
 		{
 			auto person = std::make_shared<Person>();
 			global["initialize_person"](person);
 			std::cout << "Name : " << person->GetName() << "\n";
 			std::cout << "Job  : " << person->GetJob()->GetName() << "\n";
 		}
-	}
-	catch (std::runtime_error e)
-	{
+	} catch (std::runtime_error e) {
 		std::cout << "Python error.\n" << e.what() << "\n";
 	}
 
